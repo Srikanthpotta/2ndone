@@ -1,0 +1,58 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class Services {
+	WebDriver driver;
+	@BeforeClass
+	public void BeforeClassMethod()
+	{
+		System.setProperty("webdriver.chrome.driver", "C:\\IVS Files\\Selenium\\Drivers\\chromedriver v2.43\\chromedriver.exe");
+		driver=new ChromeDriver();
+		driver.get("http://10.82.180.36/Common/Login.aspx");
+		driver.manage().window().maximize();
+		driver.findElement(By.id("body_txtUserID")).sendKeys("donhere");
+		 driver.findElement(By.id("body_txtPassword")).sendKeys("don@123");
+		 driver.findElement(By.id("body_btnLogin")).click();
+		driver.manage().timeouts().implicitlyWait(10000, TimeUnit.MICROSECONDS);
+	}
+	@Test(priority=0)
+	  public void guiChekServices() throws IOException, InterruptedException {
+		driver.findElement(By.id("GeneralTabMenu_Service_li_Cust")).click();
+		Thread.sleep(3000);
+		File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		//Using the FileUtils class copy the generated screenshot file to any location
+		FileUtils.copyFile(scrFile, new File("C:\\UsersDesktop\\Screenshots\\ServicesCutomerMasterPage.png"));
+		
+	}
+	@Test(priority=0)
+	  public void guiserviceshome() throws IOException, InterruptedException {
+		driver.findElement(By.id("GeneralTabMenu_Service_li_Cust")).click();
+		Thread.sleep(3000);
+		File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		//Using the FileUtils class copy the generated screenshot file to any location
+		FileUtils.copyFile(scrFile, new File("C:\\Users\Desktop\\Screenshots\\ServiceHomePage.png"));
+		Thread.sleep(3000);
+	    WebElement we1=driver.findElement(By.xpath("/html/body/form/div[3]/div[4]/div[2]/div[3]"));
+	    System.out.println(we1.getText());
+	    
+	}
+	
+	 @AfterClass
+	  public void afterClassMethod()
+	  {
+		  driver.close();
+		  driver.quit();
+	  }
+}
